@@ -7,15 +7,15 @@
 
 ## Purpose
 
-Run an interactive Windows cleanup workflow with guardrails, including elevation handling, service-safe operations and full transcript logging.
+Run an interactive Windows cleanup workflow with guardrails, including elevation handling, service-state safety and full transcript logging.
 
 ## What it does
 
-- Checks for administrator context and offers relaunch with elevation if needed.
+- Checks for administrator context and offers relaunch when required.
 - Starts a transcript in `%TEMP%`.
-- Preserves/restores service state where service control is required.
+- Preserves/restores service state where service control is used.
 - Performs guarded directory cleanup with defensive checks.
-- Optionally skips Windows Disk Cleanup when `-SkipCleanMgr` is set.
+- Optionally skips Windows Disk Cleanup using `-SkipCleanMgr`.
 
 ## Requirements
 
@@ -30,38 +30,27 @@ cd "C:\Users\noswi\Desktop\Scripts\Invoke-WindowsCleanup"
 .\Invoke-WindowsCleanup.ps1
 ```
 
-Optional parameter:
-
-```powershell
-.\Invoke-WindowsCleanup.ps1 -SkipCleanMgr
-```
-
-## Parameters
-
-- `-SkipCleanMgr`
-  - Skips launching `cleanmgr.exe`.
-
 ## Output
 
-A transcript is written to:
-
-```text
-%TEMP%\\WindowsCleanup_YYYYMMDD_HHMMSS.log
-```
-
-Review the log for all completed steps and warnings.
-
-## Notes
-
-Designed to be interactive. Review the results and test in a controlled environment first.
+- Transcript file in `%TEMP%` with a timestamped name.
+- In-console progress and warning messages for each cleanup stage.
 
 ## Troubleshooting
 
 - If not elevated, relaunch prompt is expected.
-- If services or files are in use, affected operations are logged and the script continues where possible.
+- If files or services are locked, affected operations are logged and skipped when necessary.
+
+## Safety
+
+Interactive execution only. Review logs and run in a controlled environment before broader use.
 
 ## Support and contribution
 
 - Issues and feature requests: [GitHub Issues](https://github.com/Ci303/Invoke-WindowsCleanup/issues)
 - Security concerns: [SECURITY.md](./SECURITY.md)
 - Contribution guidelines: [CONTRIBUTING.md](./CONTRIBUTING.md)
+
+## Parameters
+
+- `-SkipCleanMgr`
+  - Skips launching `cleanmgr.exe`.
