@@ -54,3 +54,8 @@ Interactive execution only. Review logs and run in a controlled environment befo
 
 - `-SkipCleanMgr`
   - Skips launching `cleanmgr.exe`.
+## Repository policy
+
+- Submit changes via a pull request from a feature branch to `master`.
+- Do not edit files directly on the default branch in normal workflow.
+- This keeps review, traceability and rollback procedures explicit.
