@@ -1,22 +1,26 @@
 # Invoke-WindowsCleanup.ps1
 
-Conservative Windows cleanup helper with interactive guardrails and elevation handling.
+![PowerShell](https://img.shields.io/badge/PowerShell-5.1%2B-5391FE?logo=powershell)
+![Last Commit](https://img.shields.io/github/last-commit/Ci303/Invoke-WindowsCleanup?label=last%20commit)
+![License](https://img.shields.io/github/license/Ci303/Invoke-WindowsCleanup)
 
-## Overview
+## Purpose
 
-This script performs interactive Windows cleanup routines and records a transcript for review. It is designed to be run as Administrator and contains internal safety measures:
+`Invoke-WindowsCleanup.ps1` runs an interactive Windows cleanup routine with guardrails, including elevation handling, service-state preservation, and transcript logging.
 
-- Self-check for admin context
-- Automatic relaunch prompt with elevation when required
-- Transcript logging to the temp directory
-- Helper routines for safe directory cleanup and service state preservation
-- Optional integration with `Cleanmgr.exe` via `-SkipCleanMgr`
+## What it does
+
+- Checks if script is running as Administrator and offers relaunch with elevation
+- Starts a transcript in `%TEMP%`
+- Backs up and restores service state when stopping/restarting specific services
+- Performs guarded directory cleanup operations
+- Optionally skips built-in Disk Cleanup (`Cleanmgr`) with `-SkipCleanMgr`
 
 ## Requirements
 
 - Windows PowerShell 5.1+
-- Execution policy that allows local scripts (or a signed script run in an approved context)
-- Administrator privileges for full cleanup operations
+- Policy-execution context that permits script execution
+- Local admin rights for full functionality
 
 ## Usage
 
@@ -25,31 +29,33 @@ cd "C:\Users\noswi\Desktop\Scripts\Invoke-WindowsCleanup"
 .\Invoke-WindowsCleanup.ps1
 ```
 
-Optional flag:
+Optional parameter:
 
 ```powershell
 .\Invoke-WindowsCleanup.ps1 -SkipCleanMgr
 ```
 
-## What happens
+## Parameters
 
-- If not elevated, the script prompts to relaunch as Administrator.
-- A transcript file is started (in `%TEMP%`) for auditability.
-- Cleanup tasks are executed through helper functions that are intended to avoid destructive failures where possible (for example, skip missing paths and preserve service state where it changes execution flow).
+- `-SkipCleanMgr`
+  - When set, skips launching `cleanmgr.exe`
 
-## Logging
+## Output and log
 
 A transcript is written to:
 
-- `%TEMP%\\WindowsCleanup_YYYYMMDD_HHMMSS.log`
+```text
+%TEMP%\\WindowsCleanup_YYYYMMDD_HHMMSS.log
+```
 
-Check this file for a complete action log and any warnings.
+Review this log for all steps and warnings.
 
-## Notes
+## Troubleshooting
 
-- Review the script before use in production environments.
-- Output is designed for interactive use and includes clear section headers and progress status.
+- **Script asks for admin relaunch:** expected for full cleanup actions.
+- **Access denied on files/folders:** some targets may be protected or in use; warnings are logged.
+- **Explorer/service behaviour:** if service changes are blocked, the script attempts to continue with warnings.
 
-## Recommended practice
+## Maintenance note
 
-Run once, review the log, and if your environment requires it, test in a controlled machine before broad rollout.
+This script is interactive by design. Run manually in a test session before routine deployment.
