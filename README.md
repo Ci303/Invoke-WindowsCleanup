@@ -60,3 +60,9 @@ Review this log for all steps and warnings.
 
 This script is interactive by design. Run manually in a test session before routine deployment.
 
+
+## Support and contribution
+
+- Issues and feature requests: [GitHub Issues](https://github.com/Ci303/Invoke-WindowsCleanup/issues)
+- Security reporting: [SECURITY.md](./SECURITY.md)
+- Contributing guide: [CONTRIBUTING.md](./CONTRIBUTING.md)
