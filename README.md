@@ -3,24 +3,25 @@
 ![PowerShell](https://img.shields.io/badge/PowerShell-5.1%2B-5391FE?logo=powershell)
 ![Last Commit](https://img.shields.io/github/last-commit/Ci303/Invoke-WindowsCleanup?label=last%20commit)
 ![License](https://img.shields.io/github/license/Ci303/Invoke-WindowsCleanup)
+![Issues](https://img.shields.io/github/issues/Ci303/Invoke-WindowsCleanup?label=open%20issues)
 
 ## Purpose
 
-`Invoke-WindowsCleanup.ps1` runs an interactive Windows cleanup routine with guardrails, including elevation handling, service-state preservation, and transcript logging.
+Run an interactive Windows cleanup workflow with guardrails, including elevation handling, service-safe operations and full transcript logging.
 
 ## What it does
 
-- Checks if script is running as Administrator and offers relaunch with elevation
-- Starts a transcript in `%TEMP%`
-- Backs up and restores service state when stopping/restarting specific services
-- Performs guarded directory cleanup operations
-- Optionally skips built-in Disk Cleanup (`Cleanmgr`) with `-SkipCleanMgr`
+- Checks for administrator context and offers relaunch with elevation if needed.
+- Starts a transcript in `%TEMP%`.
+- Preserves/restores service state where service control is required.
+- Performs guarded directory cleanup with defensive checks.
+- Optionally skips Windows Disk Cleanup when `-SkipCleanMgr` is set.
 
 ## Requirements
 
-- Windows PowerShell 5.1+
-- Policy-execution context that permits script execution
-- Local admin rights for full functionality
+- Windows PowerShell 5.1+.
+- Execution-policy context that allows running the script.
+- Local administrator rights for full cleanup paths.
 
 ## Usage
 
@@ -38,9 +39,9 @@ Optional parameter:
 ## Parameters
 
 - `-SkipCleanMgr`
-  - When set, skips launching `cleanmgr.exe`
+  - Skips launching `cleanmgr.exe`.
 
-## Output and log
+## Output
 
 A transcript is written to:
 
@@ -48,21 +49,19 @@ A transcript is written to:
 %TEMP%\\WindowsCleanup_YYYYMMDD_HHMMSS.log
 ```
 
-Review this log for all steps and warnings.
+Review the log for all completed steps and warnings.
+
+## Notes
+
+Designed to be interactive. Review the results and test in a controlled environment first.
 
 ## Troubleshooting
 
-- **Script asks for admin relaunch:** expected for full cleanup actions.
-- **Access denied on files/folders:** some targets may be protected or in use; warnings are logged.
-- **Explorer/service behaviour:** if service changes are blocked, the script attempts to continue with warnings.
-
-## Maintenance note
-
-This script is interactive by design. Run manually in a test session before routine deployment.
-
+- If not elevated, relaunch prompt is expected.
+- If services or files are in use, affected operations are logged and the script continues where possible.
 
 ## Support and contribution
 
 - Issues and feature requests: [GitHub Issues](https://github.com/Ci303/Invoke-WindowsCleanup/issues)
-- Security reporting: [SECURITY.md](./SECURITY.md)
-- Contributing guide: [CONTRIBUTING.md](./CONTRIBUTING.md)
+- Security concerns: [SECURITY.md](./SECURITY.md)
+- Contribution guidelines: [CONTRIBUTING.md](./CONTRIBUTING.md)
